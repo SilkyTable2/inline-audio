@@ -9,8 +9,18 @@ class InlineAudio extends LitElement {
 
   static styles = css`
     :host {
-
-      }
+      display: inline;
+      vertical-align: middle;
+      max-width: 960px;
+      margin: 0 auto;
+      background-color: var()
+    }
+    .cardDesign{
+      display:inline-flex;
+      align-items: center;
+      padding: 4px 4px 4px 4px;
+      
+    }
   `;
 
   constructor() {
@@ -23,7 +33,9 @@ class InlineAudio extends LitElement {
   render() {
     return html`
       <main>
-        
+        <div class="cardDesign">
+
+        </div>
       </main>
     `;
   }
