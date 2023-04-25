@@ -28,6 +28,9 @@ class InlineAudio extends LitElement {
       min-width: 50px;
       font-size: 12px;
     }
+    .spacer {
+      padding-right: 8px;
+    }
   `;
 
   constructor() {
@@ -37,7 +40,12 @@ class InlineAudio extends LitElement {
     this.isPlaying = false;
   }
 
-  
+  playIterator(){
+    setTimeout(() => {
+      this.audioLoaded = true;
+      this.playRouter(true);
+    }, 500);
+  }
   playRouter(playStatus){
     if(playStatus == true){
       this.shadowRoot.querySelector('.player').play();
@@ -71,9 +79,9 @@ class InlineAudio extends LitElement {
     return html`
       <main>
         <div class="cardDesign">
-          <simple-icon icon="${this.playStateIcon}" @click="${this.audioToggle()}"></simple-icon>
+          <simple-icon class="spacer"icon="${this.playStateIcon}" @click="${this.audioToggle()}"></simple-icon>
           <slot></slot>
-          <audio class="player" type="audio/mpeg"></audio>
+          <audio class="player" type="audio/mpeg" @playIteration="${this.playIterator()}"></audio>
         </div>
       </main>
     `;
