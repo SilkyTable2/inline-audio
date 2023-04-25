@@ -9,6 +9,7 @@ class InlineAudio extends LitElement {
     playStateIcon: { type: String },
     audio: { type: String },
     audioLoaded: { type: Boolean },
+    isPlaying: { type: Boolean }
   }
 
   static styles = css`
@@ -33,21 +34,34 @@ class InlineAudio extends LitElement {
     super();
     this.playStateIcon = "av:play-arrow";
     this.audioLoaded = "false";
+    this.isPlaying = false;
   }
 
   
+  playRouter(playStatus){
+    if(playStatus == true){
+      this.shadowRoot.querySelector('.player').play();
+      this.icon = "av:pause";
+      this.isPlaying = true;
+    } 
+    else{
+      this.shadowRoot.querySelector('.player').pause();
+      this.icon = "av:play-arrow";
+      this.isPlaying = "false";
+    }
+  }
 
   audioToggle(){
-    if(document.shadowRoot.querySelector(".player").hasAttribute("src") != true){
-      const customAudio = document.shadowRoot.querySelector(".player");
+    if(this.shadowRoot.querySelector(".player").hasAttribute("src") != true){
+      const customAudio = this.shadowRoot.querySelector(".player");
       customAudio.src = audio;
     }
     
-    if(document.shadowRoot.querySelector(".player").paused && this.audioLoaded == true){
-      
+    if(this.shadowRoot.querySelector(".player").paused && this.audioLoaded == true){
+      this.playRouter(true);
     }
-    else if(document.shadowRoot.querySelector(".player").paused == false && this.audioLoaded == true){
-
+    else if(this.document.shadowRoot.querySelector(".player").paused == false && this.audioLoaded == true){
+      this.playRouter(false);
     }
   }
 
@@ -57,7 +71,7 @@ class InlineAudio extends LitElement {
     return html`
       <main>
         <div class="cardDesign">
-          <simple-icon icon="${this.playStateIcon}" @click="${document.audioToggle()}"></simple-icon>
+          <simple-icon icon="${this.playStateIcon}" @click="${this.audioToggle()}"></simple-icon>
           <slot></slot>
           <audio class="player" type="audio/mpeg"></audio>
         </div>
